@@ -7,6 +7,7 @@ edition = "2018"
 crate-type = ["cdylib"]
 
 [dependencies]
+anchor-lang = "0.13.0"
 borsh = "0.9.0"
 borsh-derive = "0.9.0"
-solana-program = "1.7.9"
+solana-program = "1.7.8"
