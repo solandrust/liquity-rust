@@ -28,6 +28,50 @@ so we are certainly setting ourselves up for unexpected pain.
 [Anchor framework]: https://github.com/project-serum/anchor
 
 
-## Starting
+## Creating the project
 
+We start by creating a directory structure to mirror Liquity's,
+and decide the [LiquityBase.sol] contract is a good one
+to start cloning,
+so add a directory, `packages/contracts/contracts/liquity-base`.
+
+From there we add a skeleton Solana entrypoint with the [`solana-program`] crate,
+and make sure we can build with `cargo build-bpf`.
+
+After that works, we add the [`anchor-lang`] dependency,
+and completely rewrite the `liquity-base` crate to contain
+the anchor "counter" example code,
+then get that to build.
+
+
+## Cloning liquity
+
+Now we take a closer look at `LiquityBase.sol` and think about how to
+translate it to Rust.
+This contract, which I am thinking of as a "class",
+mostly contains constants and methods on those constants.
+Note something I would use inheritance, classes, or data structures for in Rust.
+But the `LiquityBase` contract also contains a few abstract fields,
+like
+
+```solidity
+IActivePool public activePool;
+IDefaultPool public defaultPool;
+```
+
+So `LiquityBase` depends on some behavior from other types,
+but doesn't care about the implementation.
+
+For this we probably do want a data structure and implementation in Rust.
+
+It looks though like our `liquity-base` is _not_ a contract (or Solana program),
+but just a Rust library that the eventual program will link to.
+
+So now I want to sketch out what a near-exact mirror of the Solidity `LiquityBase`
+contract might look like in Rust.
+
+For now I'm just going to write all of it in the `liquity-base` crate
+I have already created,
+but once I've reached another milestone,
+I'll refactor it into modules and/or crates.
 
